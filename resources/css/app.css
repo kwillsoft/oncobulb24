@@ -1,0 +1,134 @@
+ .app_body, .welcome_body {
+
+    background-color: #000 !important;
+    color: #ebff93 !important;  
+
+}
+
+
+#thee_data{
+    display:none; 
+    text-align: center;
+    text-align: left;
+    background-color: #000;
+    color: #ebff93;
+    border-radius: 5px;
+    padding: 5px;
+    white-space: pre-line;
+    margin: 0 10% 0 10% ;
+
+}
+#c_button{
+    margin-right:20%;
+}
+
+#back{
+    display:none;
+    text-align: center;
+}
+.cancerstat, .cancer_info {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
+    color: green;
+    display: block;
+
+}
+
+@media only screen and (max-width: 780px) {
+.cancerimg {
+    width:45%;
+    border-radius: 10px;
+      margin:25px 100px 25px 100px
+    }
+  }
+   
+      @media only screen and (min-width: 781px) {
+        .cancerimg {
+            width:25%;
+            border-radius: 10px;
+
+              margin:75px 0 auto 37%;
+            }
+          }
+          @media only screen and (max-width: 781px) {
+            .cancer_info {
+                font-size: .5rem;
+                }
+              }
+
+.cancer_info{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
+    color: green;
+    margin:25px 65px 0 65px;
+}
+
+@media only screen and (min-width: 781px) {
+    .cancer_data {
+        margin-left:42%;
+        margin-bottom:30px;
+
+      }}
+      @media only screen and (max-width: 780px) {
+        .cancer_data {
+         max-width:85% ; 
+         margin-left:25%;
+         margin-bottom:30px;
+         font-size: .6rem;
+        }}
+
+         @media only screen and (max-width: 780px) {
+            .cancer_info {
+        font-size: .7rem;  
+        margin: 0 75px 0 75px;
+
+         }}
+         @media only screen and (max-width: 780px) {
+            #backbutton1 {
+        font-size: .6rem;
+        text-align: center;
+
+         }}
+.c_title{
+    text-align: center;
+}
+button{
+    border-radius: 40px;
+    color: green;
+    border-color: green;
+    background: black;
+    margin-top:20px;
+    border-color:green;
+    border-width:.5em;
+    border:solid;
+    padding-top:10px;
+    padding-bottom:7px;
+}
+#backbutton1{
+    color:green;
+    margin-top:30px;
+    text-align: center;
+    text-decoration: none;
+
+}
+#backbutton2{
+    color:yellow;
+    margin-top:30px;
+    text-align: center;
+    font-size: large;
+    text-decoration: none;
+
+}
+.faqs{
+    color:rgb(238, 247, 165);
+    font-family: 'Montserrat', sans-serif;
+    text-align:center;
+
+}
+.faqs a{
+    text-decoration: none;
+    color: yellow;
+}
+    .highlight{
+        color:tomato;
+    }
