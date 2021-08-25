@@ -83,6 +83,7 @@
         margin: 0 75px 0 75px;
 
          }}
+      
          @media only screen and (max-width: 780px) {
             #backbutton1 {
         font-size: .6rem;

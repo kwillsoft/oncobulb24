@@ -68,6 +68,18 @@
     .blurb{
         text-transform:uppercase;
     }
+    @media only screen and (max-width: 780px) {
+            .blurb, .pick, .disclaimer {
+        font-size: 1rem !important;  
+        padding:28px 0 28px 0;
+
+         }}
+         @media only screen and (max-width: 780px) {
+           #faq {
+        font-size: 2rem !important;  
+        
+
+         }}
     a, a:hover{
         color:green;
         text-decoration:none !important;
