@@ -36,7 +36,7 @@ getinfo = async () => {
         const Query_Key = xmlDoc.getElementsByTagName("QueryKey")[0].childNodes[0].nodeValue;
         const api_callb = await fetch(
             `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmax=20&api_key=${API_KEY}&retmode=json&rettype=abstract&query_key=${Query_Key}&WebEnv=${Web_Env}`
-        );
+        ,{mode:'no-cors'});
         const datab = await api_callb.text();
         
         
