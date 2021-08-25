@@ -19,7 +19,7 @@ function getData() {
 getinfo = async () => {
     var API_KEY = '{{ env('API_KEY') }}';
     const api_call = await fetch(
-        `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmax=20&term=kidney+cancer+herb+plant&api_key=${API_KEY}&usehistory=y`
+        `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmax=20&term=plant+cancer+kidney+herb+NOT+id=33634751&api_key=${API_KEY}&usehistory=y`
     );
     const data = await api_call.text();
     if (data) {
@@ -28,7 +28,7 @@ getinfo = async () => {
         const Web_Env = xmlDoc.getElementsByTagName("WebEnv")[0].childNodes[0].nodeValue;
         const Query_Key = xmlDoc.getElementsByTagName("QueryKey")[0].childNodes[0].nodeValue;
         const api_callb = await fetch(
-            `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmax=20&api_key=${API_KEY}&retmode=json&rettype=abstract&query_key=${Query_Key}&WebEnv=${Web_Env}`
+            `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmax=20&api_key=${API_KEY}&retstart=2&retmode=json&rettype=abstract&query_key=${Query_Key}&WebEnv=${Web_Env}`
         );
         const datab = await api_callb.text();
            
@@ -45,7 +45,6 @@ getinfo = async () => {
 }
 getinfo();
 </script>
-
 
 @endsection
 
