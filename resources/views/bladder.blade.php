@@ -4,13 +4,7 @@
 
 
 @section('scripts')
-<script>
-var Today = () => {
 
-	var d = new Date();
-	return d.toDateString();
-}    
-</script>
 
 <script>
 function getData() {
