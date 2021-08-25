@@ -52,7 +52,7 @@ getinfo();
 @section('content')
 <div class="container">
             <div id="top_box" >
-                <div ><img class="cancerimg" src="img/endometrial.jpg"></div>
+                <div ><img class="cancerimg" src="img/Endometrial.jpg"></div>
             </div>
     
         <div class="cancer_info">
