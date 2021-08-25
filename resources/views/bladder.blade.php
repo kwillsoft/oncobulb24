@@ -27,7 +27,7 @@ getinfo = async () => {
     var API_KEY = '{{ env('API_KEY') }}';
     const api_call = await fetch(
         `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmax=20&term=bladder+cancer+herb+plant&api_key=${API_KEY}&usehistory=y`
-  {mode:no-cors});
+    , {mode:'no-cors'});
     const data = await api_call.text();
     if (data) {
         const parser = new DOMParser();
