@@ -26,8 +26,8 @@ All of the info on this site is continuously curated via API from the NCBI's PUB
 Who made this?<br>
 <a href="https://kwillsoftware.com"  >KWILLSOFTWARE.COM</a>
 <br><br>
-I love or (or hate) this idea! Here's why:<br>
-Send all questions/comments ect. to kwillsoftware@gmail.com
+If love or (or hate) this idea, 
+send all questions/comments ect. toL<br> kwillsoftware@gmail.com
 <br><br>
 Donations to KWILLSOFTWARE can be made <a href="https://ko-fi.com/kwillsoftware">HERE.</a><br>
 <br><br>
