@@ -18,9 +18,9 @@ function getData() {
 </script>
 <script>
 getinfo = async () => {
-    var API_KEY = '44bad42c863c717dd4e6ae71efb182ab1009';
+    var API_KEY = '{{ env('API_KEY') }}';
     const api_call = await fetch(
-        `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmax=20&term=bladder+cancer+herb+plant&api_key=44bad42c863c717dd4e6ae71efb182ab1009&usehistory=y`
+        `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmax=20&term=bladder+cancer+herb+plant&api_key=${API_KEY}&usehistory=y`
     );
     const data = await api_call.text();
     if (data) {
