@@ -1,13 +1,13 @@
 {
     "private": true,
     "scripts": {
-        "dev": "npm run development",
+        "dev": "npm run production",
         "development": "mix",
         "watch": "mix watch",
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
-        "prod": "npm run development",
-        "production": "mix --dev"
+        "prod": "npm run production",
+        "production": "mix --production"
     },
     "devDependencies": {
         "axios": "^0.21",
