@@ -1,6 +1,6 @@
 
 # Set base image
-FROM php:8.0-fpm
+FROM php:8.4-fpm
 
 # Install dependencies (including Composer)
 RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev zip git
