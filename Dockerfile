@@ -11,7 +11,7 @@ RUN docker-php-ext-install gd pdo pdo_mysql
 #RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Set working directory inside the container
-WORKDIR /var/www
+WORKDIR /var/www/oncobulb
 
 # Copy application files into the container
 COPY . .
