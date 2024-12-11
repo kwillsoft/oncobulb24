@@ -58,7 +58,7 @@ getinfo();
 @endsection
 
 @section('content')
-<div class="container">
+<div class="container app_body">
             <div id="top_box" >
                 <div ><img class="cancerimg" src="img/bladder.jpg"></div>
             </div>
