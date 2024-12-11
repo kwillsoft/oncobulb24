@@ -1,27 +1,16 @@
-# Set base image
-FROM php:8.3-fpm
-
-# Install dependencies
-RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev zip git
-
-# Install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN docker-php-ext-install gd pdo pdo_mysql
-
-# Set working directory inside the container
+FROM dunglas/frankenphp:php8.3-bookworm
+# Set the listening address for FrankenPHP's built-in server
+ENV SERVER_NAME=":8080"
+# Install Composer and required PHP extensions
+# '@composer' installs Composer
+# 'gd' 'pdo_mysql' and 'zip' mimic the original dependencies you installed.
+RUN install-php-extensions @composer gd pdo_mysql zip
 WORKDIR /var/www
-
-# Copy application files into the container
 COPY . .
-
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Install PHP dependencies (Laravel)
-RUN composer install
-
-# Expose the port (optional)
+RUN composer install \
+--ignore-platform-reqs \
+--optimize-autoloader \
+--prefer-dist \
+--no-interaction \
+--no-progress
 EXPOSE 8080
-
-# Start PHP-FPM server
-CMD ["php-fpm"]
