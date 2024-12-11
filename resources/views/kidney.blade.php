@@ -47,7 +47,7 @@ getinfo = async () => {
             const abstract = article.getElementsByTagName("AbstractText")[0]?.textContent || "No Abstract Available";
             const pubDate = article.getElementsByTagName("PubDate")[0]?.textContent || "Unknown Date";
 
-            formattedArticles += `<div>
+            formattedArticles += <div>
                 <h3>${title}</h3>
                 <p><strong>Publication Date:</strong> ${pubDate}</p>
       
