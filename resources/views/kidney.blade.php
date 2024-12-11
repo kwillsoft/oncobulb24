@@ -18,48 +18,40 @@ function getData() {
 <script>
 getinfo = async () => {
     var API_KEY = '{{ env('API_KEY') }}';
-    const api_call = await fetch(
-        `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmax=20&term=plant+cancer+kidney+herb+NOT+id=33634751&api_key=${API_KEY}&usehistory=y`
-    );
-    const data = await api_call.text();
-    if (data) {
+    
+    try {
+        // First API call: Get WebEnv and QueryKey
+        const api_call = await fetch(
+            `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmax=20&term=plant+cancer+kidney+herb+NOT+id=33634751&api_key=${API_KEY}&usehistory=y`
+        );
+        const data = await api_call.text();
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(data, "text/xml");
         const Web_Env = xmlDoc.getElementsByTagName("WebEnv")[0].childNodes[0].nodeValue;
         const Query_Key = xmlDoc.getElementsByTagName("QueryKey")[0].childNodes[0].nodeValue;
 
+        // Second API call: Fetch abstracts
         const api_callb = await fetch(
-            `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmax=20&api_key=${API_KEY}&retmode=json&rettype=abstract&query_key=${Query_Key}&WebEnv=${Web_Env}`
+            `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmax=20&api_key=${API_KEY}&retmode=xml&rettype=abstract&query_key=${Query_Key}&WebEnv=${Web_Env}`
         );
-        const datab = await api_callb.json(); // Use `.json()` for JSON response.
+        const datab = await api_callb.text();
+        
+        // Parse the XML response from the second API call
+        const xmlDocb = parser.parseFromString(datab, "text/xml");
+        const articles = xmlDocb.getElementsByTagName("PubmedArticle");
+        
+        let formattedArticles = '';
+        for (let i = 0; i < articles.length; i++) {
+            const article = articles[i];
+            const title = article.getElementsByTagName("ArticleTitle")[0]?.textContent || "No Title Available";
+            const abstract = article.getElementsByTagName("AbstractText")[0]?.textContent || "No Abstract Available";
+            const pubDate = article.getElementsByTagName("PubDate")[0]?.textContent || "Unknown Date";
 
-        if (datab && datab.result) {
-            const articles = Object.values(datab.result).filter((item) => item.authors); // Filter valid articles.
-            const formattedArticles = articles.map((article) => {
-                const title = article.title || "No Title Available";
-                const date = article.pubdate || "Unknown Date";
-                const firstAuthor = article.authors.length > 0 ? article.authors[0].name : "Unknown Author";
-                return `<div>
-                    <h3>${title}</h3>
-                    <p><strong>Date:</strong> ${date}</p>
-                    <p><strong>Author:</strong> ${firstAuthor}</p>
-                </div>`;
-            });
+            formattedArticles += `<div>
+                <h3>${title}</h3>
+                <p><strong>Publication Date:</strong> ${pubDate}</p>
+      
 
-            var Today = () => {
-                var d = new Date();
-                return d.toDateString();
-            };
-
-            const theetitle = "Peer-Reviewed Data From the National Center For Biotechnology Information(NCBI)<br> " + Today() + "<br>";
-            var boldtitle = theetitle.bold();
-            document.getElementById("thee_data").innerHTML = (boldtitle) + formattedArticles.join("");
-        }
-    }
-};
-
-// Ensure the function is called to fetch the data on load if needed.
-getinfo();
 </script>
 
 @endsection
