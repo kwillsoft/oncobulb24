@@ -37,32 +37,22 @@ getinfo = async () => {
             const abstract = article.getElementsByTagName("AbstractText")[0]?.textContent || "No Abstract Available";
             const pubDate = article.getElementsByTagName("PubDate")[0]?.textContent || "Unknown Date";
             
-            // Get the first three authors
+            // Limit authors to only the first one
             const authors = article.getElementsByTagName("Author");
             let authorNames = '';
-            for (let j = 0; j < Math.min(authors.length, 3); j++) {
-                const lastName = authors[j].getElementsByTagName("LastName")[0]?.textContent;
-                const foreName = authors[j].getElementsByTagName("ForeName")[0]?.textContent;
-                if (lastName && foreName) {
-                    authorNames += `${lastName}, ${foreName}`;
-                } else if (lastName) {
-                    authorNames += `${lastName}`;
-                }
-                if (j < 2 && j < authors.length - 1) {
-                    authorNames += ", "; // Add comma between authors if not the last author
-                }
+            if (authors.length > 0) {
+                authorNames = authors[0].getElementsByTagName("LastName")[0]?.textContent + ", " + authors[0].getElementsByTagName("ForeName")[0]?.textContent;
             }
 
-            // Display articles with the first three authors
             formattedArticles += `<div class="article-item">
                 <h3 class="article-title">${title}</h3>
                 <p class="article-date"><strong>Publication Date:</strong> ${pubDate}</p>
-                <p class="article-authors"><strong>Author(s):</strong> ${authorNames}</p>
+                <p class="article-authors"><strong>First Author:</strong> ${authorNames}</p>
                 <p class="article-abstract">${abstract}</p>
             </div><hr>`;
         }
 
-        // Display articles header with today's date
+        // Display articles
         const today = new Date().toDateString();
         const header = `<strong>Peer-Reviewed Data From the National Center For Biotechnology Information (NCBI)</strong><br>${today}<br>`;
         document.getElementById("thee_data").innerHTML = header + formattedArticles;
@@ -82,7 +72,6 @@ getData = () => {
     document.getElementById("thee_data").style.display = "block";
     getinfo();
 };
-
 </script>
 
 @endsection
