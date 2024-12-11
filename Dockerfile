@@ -1,20 +1,21 @@
-
 # Set base image
 FROM php:8.4-fpm
 
-# Install dependencies (including Composer)
+# Install dependencies
 RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev zip git
+
+# Install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install gd pdo pdo_mysql
 
-# Install Composer (only if not in base image)
-#RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 # Set working directory inside the container
-WORKDIR /var/www/oncobulb
+WORKDIR /var/www
 
 # Copy application files into the container
 COPY . .
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install PHP dependencies (Laravel)
 RUN composer install
