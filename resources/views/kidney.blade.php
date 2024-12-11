@@ -27,22 +27,38 @@ getinfo = async () => {
         const xmlDoc = parser.parseFromString(data, "text/xml");
         const Web_Env = xmlDoc.getElementsByTagName("WebEnv")[0].childNodes[0].nodeValue;
         const Query_Key = xmlDoc.getElementsByTagName("QueryKey")[0].childNodes[0].nodeValue;
-        const api_callb = await fetch(
-            `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmax=20&api_key=${API_KEY}&retstart=2&retmode=json&rettype=abstract&query_key=${Query_Key}&WebEnv=${Web_Env}`
-        );
-        const datab = await api_callb.text();
-           
-        var Today = () => {
-        var d = new Date();
-        return d.toDateString();
-         }
 
-         const theetitle = "Peer-Reviewed Data From the National Center For Biotechnology Information(NCBI)<br> "+ Today() +"<br>"
-        var boldtitle =  theetitle.bold();
-        var boldtitle= boldtitle
-        document.getElementById("thee_data").innerHTML = (boldtitle) + (datab);
+        const api_callb = await fetch(
+            `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmax=20&api_key=${API_KEY}&retmode=json&rettype=abstract&query_key=${Query_Key}&WebEnv=${Web_Env}`
+        );
+        const datab = await api_callb.json(); // Use `.json()` for JSON response.
+
+        if (datab && datab.result) {
+            const articles = Object.values(datab.result).filter((item) => item.authors); // Filter valid articles.
+            const formattedArticles = articles.map((article) => {
+                const title = article.title || "No Title Available";
+                const date = article.pubdate || "Unknown Date";
+                const firstAuthor = article.authors.length > 0 ? article.authors[0].name : "Unknown Author";
+                return `<div>
+                    <h3>${title}</h3>
+                    <p><strong>Date:</strong> ${date}</p>
+                    <p><strong>Author:</strong> ${firstAuthor}</p>
+                </div>`;
+            });
+
+            var Today = () => {
+                var d = new Date();
+                return d.toDateString();
+            };
+
+            const theetitle = "Peer-Reviewed Data From the National Center For Biotechnology Information(NCBI)<br> " + Today() + "<br>";
+            var boldtitle = theetitle.bold();
+            document.getElementById("thee_data").innerHTML = (boldtitle) + formattedArticles.join("");
+        }
     }
-}
+};
+
+// Ensure the function is called to fetch the data on load if needed.
 getinfo();
 </script>
 
