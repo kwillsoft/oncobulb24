@@ -20,8 +20,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Install PHP dependencies (Laravel)
 RUN composer install
 
-# Expose the port (optional)
-EXPOSE 8080
+
 
 # Start PHP-FPM server
 CMD ["php-fpm"]
