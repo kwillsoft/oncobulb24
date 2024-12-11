@@ -2,6 +2,17 @@
 @extends('layouts.app')
 
 
+
+
+
+
+@section('script')
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+            @endsection
+
 @section('content')
 <body class="antialiased ">
     <div class="relative flex items-top justify-center min-h-screen  sm:items-center py-4 sm:pt-0">
@@ -62,4 +73,8 @@
                     </div>
                 </div>
             </div>
-            @endsection
+@endsection
+
+</body>
+
+</html>
