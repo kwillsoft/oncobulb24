@@ -82,6 +82,7 @@
         document.getElementById("back").style.display = "block";
         document.getElementById("thee_data").style.display = "block";
         getinfo();
+    };
 </script>
 
 
