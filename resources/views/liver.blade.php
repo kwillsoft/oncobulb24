@@ -7,7 +7,7 @@
 
 
 <script>
-   getinfo = async () => {
+    getinfo = async () => {
         var API_KEY = '{{ env('API_KEY') }}';
         
         try {
