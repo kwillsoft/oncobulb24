@@ -63,6 +63,7 @@ getData = () => {
     document.getElementById("back").style.display = "block";
     document.getElementById("thee_data").display = "block";
     getinfo();
+</script>
 
 @endsection
 
