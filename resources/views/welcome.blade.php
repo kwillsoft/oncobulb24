@@ -151,7 +151,6 @@
                                 <a class="dropdown-item" href="/endometrial">Endometrial Cancer</a>
                                 <a class="dropdown-item" href="/kidney">Kidney Cancer</a>
                                 <a class="dropdown-item" href="/leukemia">Leukemia</a>
-                                <a class="dropdown-item" href="/liver">Liver Cancer</a>
                                 <a class="dropdown-item" href="/lung">Lung Cancer</a>
                                 <a class="dropdown-item" href="/melanoma">Melanoma</a>
                                 <a class="dropdown-item" href="/nhl">Non-Hodgkins Lymphoma</a>

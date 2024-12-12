@@ -15,13 +15,15 @@ What can I do with this information?<br>
 (1) In each article, (after the publication name, date, and author info) you'll find the particular plant or plant extract studied. (2) Use Google to find the common name of the plant. (3) Independently research the historical uses of the plant/herb on other websites. (4)Take these findings to your wellness provider, herbalist, naturopath or instructor for further advice & historical use cases.
 <br><br>
 How do I read the results?<br>
-<span class="highlight"> Pay particular attention to the introduction & concluding sections of the articles & studies. This is where you will get an idea of what plant was researched and whether the findings were positive, negative or null.</span>
+<span class="highlight"> Pay particular attention to the introduction & concluding sections of the articles & studies. 
+        This is where you will get an idea of what plant was researched and whether the findings were positive, negative or null.</span>
 <br><br>
 Is that Latin?<br>
 Yes! You'll undoubtedly see some Latin, Chinese and other types of plant names. Copy & paste those names into a Google search & you'll see alternate names that you or your local herbalist will be familiar with.
 <br><br>
 How can I find more info?<br>
-All of the info on this site is continuously curated via API from the NCBI's PUBMED site.
+All of the info on this site is continuously curated via API from the NCBI's PUBMED site. Please note: For articles multiple contributors, the (alphabetically) first author is listed.
+Thia will enable you to find the article easily with a Google search!
 <br><br>
 Who made this?<br>
 <a href="https://kwillsoftware.com"  >KWILLSOFTWARE.COM</a>
