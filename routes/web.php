@@ -36,3 +36,22 @@ Route::get('/prostate', [App\Http\Controllers\ProstateController::class, 'index'
 Route::get('/thyroid', [App\Http\Controllers\ThyroidController::class, 'index'])->name('thyroid');
 Route::get('/faq', [App\Http\Controllers\FaqController::class, 'index'])->name('faq'); 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+use Illuminate\Support\Facades\Http;
+
+Route::get('/api/pubmed', function (Request $request) {
+    $term = $request->input('term', 'bladder cancer herb plant');
+    $api_key = env('API_KEY');
+    
+    $url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi";
+    $response = Http::get($url, [
+        'db' => 'pubmed',
+        'retmax' => 20,
+        'term' => $term,
+        'api_key' => $api_key,
+        'usehistory' => 'y'
+    ]);
+
+    return response($response->body(), $response->status())
+            ->header('Content-Type', $response->header('Content-Type'));
+});

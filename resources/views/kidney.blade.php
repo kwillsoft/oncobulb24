@@ -7,25 +7,19 @@
 
 <script>
 getinfo = async () => {
-    var API_KEY = '{{ env('API_KEY') }}';
-    
     try {
-        // First API call: Get WebEnv and QueryKey
-        const api_call = await fetch(
-            `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmax=20&term=plant+cancer+kidney+herb+NOT+id=33634751&api_key=${API_KEY}&usehistory=y`
-        );
+        // First API call: Get WebEnv and QueryKey via proxy
+        const api_call = await fetch(`/api/proxy/pubmed?term=plant+cancer+kidney+herb+NOT+id=33634751`);
         const data = await api_call.text();
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(data, "text/xml");
         const Web_Env = xmlDoc.getElementsByTagName("WebEnv")[0].childNodes[0].nodeValue;
         const Query_Key = xmlDoc.getElementsByTagName("QueryKey")[0].childNodes[0].nodeValue;
 
-        // Second API call: Fetch abstracts
-        const api_callb = await fetch(
-            `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmax=20&api_key=${API_KEY}&retmode=xml&rettype=abstract&query_key=${Query_Key}&WebEnv=${Web_Env}`
-        );
+        // Second API call: Fetch abstracts via proxy
+        const api_callb = await fetch(`/api/proxy/efetch?query_key=${Query_Key}&web_env=${Web_Env}`);
         const datab = await api_callb.text();
-        
+
         // Parse the XML response from the second API call
         const xmlDocb = parser.parseFromString(datab, "text/xml");
         const articles = xmlDocb.getElementsByTagName("PubmedArticle");
@@ -36,7 +30,7 @@ getinfo = async () => {
             const title = article.getElementsByTagName("ArticleTitle")[0]?.textContent || "No Title Available";
             const abstract = article.getElementsByTagName("AbstractText")[0]?.textContent || "No Abstract Available";
             const pubDate = article.getElementsByTagName("PubDate")[0]?.textContent || "Unknown Date";
-            
+
             // Limit authors to only the first one
             const authors = article.getElementsByTagName("Author");
             let authorNames = '';
@@ -62,6 +56,7 @@ getinfo = async () => {
         document.getElementById("thee_data").innerHTML = `<p>There was an error fetching the data. Please try again later.</p>`;
     }
 };
+
 
 // Ensure the function runs when the button is clicked
 getData = () => {
