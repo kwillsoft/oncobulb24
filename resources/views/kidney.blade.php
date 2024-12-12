@@ -9,21 +9,21 @@
 getinfo = async () => {
     try {
         // First API call: Get WebEnv and QueryKey via proxy
-        const api_call = await fetch(`/api/proxy/pubmed?term=plant+cancer+kidney+herb+NOT+id=33634751`);
+        const api_call = await fetch(`/api/proxy/pubmed?term=plant+cancer+kidney+herb+NOT+id=33634751`, { mode: 'no-cors' });
         const data = await api_call.text();
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(data, "text/xml");
-        const Web_Env = xmlDoc.getElementsByTagName("WebEnv")[0].childNodes[0].nodeValue;
-        const Query_Key = xmlDoc.getElementsByTagName("QueryKey")[0].childNodes[0].nodeValue;
+        const Web_Env = xmlDoc.getElementsByTagName("WebEnv")[0]?.childNodes[0]?.nodeValue || "";
+        const Query_Key = xmlDoc.getElementsByTagName("QueryKey")[0]?.childNodes[0]?.nodeValue || "";
 
         // Second API call: Fetch abstracts via proxy
-        const api_callb = await fetch(`/api/proxy/efetch?query_key=${Query_Key}&web_env=${Web_Env}`);
+        const api_callb = await fetch(`/api/proxy/efetch?query_key=${Query_Key}&web_env=${Web_Env}`, { mode: 'no-cors' });
         const datab = await api_callb.text();
 
         // Parse the XML response from the second API call
         const xmlDocb = parser.parseFromString(datab, "text/xml");
         const articles = xmlDocb.getElementsByTagName("PubmedArticle");
-        
+
         let formattedArticles = '';
         for (let i = 0; i < articles.length; i++) {
             const article = articles[i];
@@ -56,6 +56,7 @@ getinfo = async () => {
         document.getElementById("thee_data").innerHTML = `<p>There was an error fetching the data. Please try again later.</p>`;
     }
 };
+
 getData = () => {
     document.getElementById("top_box").style.display = "none";
     document.getElementById("c_button").style.display = "none";
