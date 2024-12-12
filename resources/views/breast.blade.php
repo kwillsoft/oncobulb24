@@ -6,13 +6,13 @@
 @section('scripts')
 
 <script>
-getinfo = async () => {
+   getinfo = async () => {
         var API_KEY = '{{ env('API_KEY') }}';
         
         try {
             // First API call: Get WebEnv and QueryKey
             const api_call = await fetch(
-                `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmax=20&term=plant+cancer+breast+herb+NOT+id=33634751&api_key=${API_KEY}&usehistory=y`
+                `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmax=20&term=plant+cancer+breast+herb&api_key=${API_KEY}&usehistory=y`
             );
             const data = await api_call.text();
             console.log(data); // Debug raw XML response
