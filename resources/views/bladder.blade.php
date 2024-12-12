@@ -64,7 +64,7 @@ var Today = () => {
                 formattedArticles += `<div class="article-item">
                     <h3 class="article-title">${title}</h3>
                     <p class="article-date"><strong>Publication Date:</strong> ${pubDate}</p>
-                    <p class="article-authors"><strong>First Author:</strong> ${authorNames}</p>
+                    <p class="article-authors"><strong>Author:</strong> ${authorNames}</p>
                     <p class="article-abstract">${abstract}</p>
                 </div><hr>`;
             }
