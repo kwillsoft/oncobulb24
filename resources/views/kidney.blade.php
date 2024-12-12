@@ -1,135 +1,81 @@
 @extends('layouts.app')
 
-
-
-
 @section('scripts')
-
 <script>
-getinfo = async () => {
-    var API_KEY = '{{ env('API_KEY') }}';
-    
-    try {
-        // First API call: Get WebEnv and QueryKey
-        const api_call = await fetch(
-            `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmax=20&term=plant+cancer+kidney+herb+NOT+id=33634751&api_key=${API_KEY}&usehistory=y`
-        );
-        const data = await api_call.text();
-        console.log(data); // Debug raw XML response
-
+    const getInfo = async () => {
+        const API_KEY = '{{ env('API_KEY') }}';
+        const displayElement = document.getElementById("thee_data");
         const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(data, "text/xml");
 
-        const Web_Env_Element = xmlDoc.getElementsByTagName("WebEnv")[0];
-        const Query_Key_Element = xmlDoc.getElementsByTagName("QueryKey")[0];
+        try {
+            // API Call 1: Fetch QueryKey and WebEnv
+            const apiUrl1 = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmax=20&term=plant+cancer+kidney+herb+NOT+id=33634751&api_key=${API_KEY}&usehistory=y`;
+            const response1 = await fetch(apiUrl1);
+            const xmlData1 = await response1.text();
+            const xmlDoc1 = parser.parseFromString(xmlData1, "text/xml");
 
-        if (!Web_Env_Element || !Query_Key_Element) {
-            throw new Error("Missing WebEnv or QueryKey in the API response");
-        }
+            const WebEnv = xmlDoc1.querySelector("WebEnv")?.textContent;
+            const QueryKey = xmlDoc1.querySelector("QueryKey")?.textContent;
 
-        const Web_Env = Web_Env_Element.childNodes[0]?.nodeValue;
-        const Query_Key = Query_Key_Element.childNodes[0]?.nodeValue;
-
-        // Second API call: Fetch abstracts
-        const api_callb = await fetch(
-            `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmax=20&api_key=${API_KEY}&retmode=xml&rettype=abstract&query_key=${Query_Key}&WebEnv=${Web_Env}`
-        );
-        const datab = await api_callb.text();
-
-        // Parse the XML response from the second API call
-        const xmlDocb = parser.parseFromString(datab, "text/xml");
-        const articles = xmlDocb.getElementsByTagName("PubmedArticle");
-
-        let formattedArticles = '';
-        for (let i = 0; i < articles.length; i++) {
-            const article = articles[i];
-            const title = article.getElementsByTagName("ArticleTitle")[0]?.textContent || "No Title Available";
-            const abstract = article.getElementsByTagName("AbstractText")[0]?.textContent || "No Abstract Available";
-            const pubDate = article.getElementsByTagName("PubDate")[0]?.textContent || "Unknown Date";
-            
-            // Limit authors to only the first one
-            const authors = article.getElementsByTagName("Author");
-            let authorNames = '';
-            if (authors.length > 0) {
-                authorNames = authors[0].getElementsByTagName("LastName")[0]?.textContent + ", " + authors[0].getElementsByTagName("ForeName")[0]?.textContent;
+            if (!WebEnv || !QueryKey) {
+                throw new Error("Unable to retrieve QueryKey or WebEnv");
             }
 
-            formattedArticles += `<div class="article-item">
-                <h3 class="article-title">${title}</h3>
-                <p class="article-date"><strong>Publication Date:</strong> ${pubDate}</p>
-                <p class="article-authors"><strong>First Author:</strong> ${authorNames}</p>
-                <p class="article-abstract">${abstract}</p>
-            </div><hr>`;
+            // API Call 2: Fetch Article Abstracts
+            const apiUrl2 = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmax=20&api_key=${API_KEY}&retmode=xml&rettype=abstract&query_key=${QueryKey}&WebEnv=${WebEnv}`;
+            const response2 = await fetch(apiUrl2);
+            const xmlData2 = await response2.text();
+            const xmlDoc2 = parser.parseFromString(xmlData2, "text/xml");
+            const articles = xmlDoc2.querySelectorAll("PubmedArticle");
+
+            // Process Articles
+            const today = new Date().toDateString();
+            let content = `<strong>Peer-Reviewed Data From the National Center For Biotechnology Information (NCBI)</strong><br>${today}<br>`;
+
+            articles.forEach(article => {
+                const title = article.querySelector("ArticleTitle")?.textContent || "No Title Available";
+                const abstract = article.querySelector("AbstractText")?.textContent || "No Abstract Available";
+                const pubDate = article.querySelector("PubDate")?.textContent || "Unknown Date";
+                const author = article.querySelector("Author > LastName")?.textContent || "Unknown Author";
+
+                content += `
+                    <div class="article-item">
+                        <h3 class="article-title">${title}</h3>
+                        <p><strong>Publication Date:</strong> ${pubDate}</p>
+                        <p><strong>First Author:</strong> ${author}</p>
+                        <p>${abstract}</p>
+                    </div><hr>`;
+            });
+
+            displayElement.innerHTML = content;
+        } catch (error) {
+            console.error("Error:", error);
+            displayElement.innerHTML = "<p>There was an error fetching the data. Please try again later.</p>";
         }
+    };
 
-        // Display articles
-        const today = new Date().toDateString();
-        const header = `<strong>Peer-Reviewed Data From the National Center For Biotechnology Information (NCBI)</strong><br>${today}<br>`;
-        document.getElementById("thee_data").innerHTML = header + formattedArticles;
-
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        document.getElementById("thee_data").innerHTML = `<p>There was an error fetching the data. Please try again later.</p>`;
-    }
-};
-
-
-// Ensure the function runs when the button is clicked
-getData = () => {
-    document.getElementById("top_box").style.display = "none";
-    document.getElementById("c_button").style.display = "none";
-    document.getElementById("backbutton1").style.display = "none";
-    document.getElementById("back").style.display = "block";
-    document.getElementById("thee_data").style.display = "block";
-    getinfo();
-};
+    document.getElementById("c_button").addEventListener("click", () => {
+        document.getElementById("top_box").style.display = "none";
+        document.getElementById("c_button").style.display = "none";
+        getInfo();
+    });
 </script>
-
 @endsection
 
 @section('content')
 <div class="container">
-            <div id="top_box" >
-                <div ><img class="cancerimg" src="img/kidneys.jpg"></div>
-            </div>
-    
-        <div class="cancer_info">
-                <div class="c_title" >
-                    <b>Kidney Cancer</b>
-               </div>
-                <div >Kidney cancer is among the 10 most common cancers in both men and women. Overall, the lifetime risk for developing kidney cancer in men is about 1 in 48. The lifetime risk for women is 1 in 83.
+    <div id="top_box">
+        <img class="cancerimg" src="img/kidneys.jpg" alt="Kidney Cancer Image">
+    </div>
 
-                </div>
-            
-       
-    
-        <div id='bottom_box'>
-                <div id='back'>
-                    <a href="/"><button>
-                            <div> BACK</div>
-                        </button></a>
-                </div>
+    <div class="cancer_info">
+        <div class="c_title"><b>Kidney Cancer</b></div>
+        <p>Kidney cancer is among the 10 most common cancers in both men and women...</p>
+    </div>
 
-                <div  id="thee_data">
-                    <!-- api info will appear here-->
-                </div>
-                <div >
-            <button id="c_button" class= "cancer_data" onClick="getData()" >
-                <div>GET THE DATA!</div>
-            </button><br>
-
-            <a id="backbutton1"  href="/">
-                    <div>GO BACK</div>
-               </a>
-        </div>
-     
+    <div id="bottom_box">
+        <div id="thee_data"></div>
+        <button id="c_button" class="cancer_data">GET THE DATA!</button>
+    </div>
 </div>
-
-</div>
-
-     
-    
-
-        
-
-        @endsection
+@endsection
