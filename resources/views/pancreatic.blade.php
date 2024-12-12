@@ -5,16 +5,7 @@
 
 @section('scripts')
 
-<script>
-function getData() {
-    document.getElementById("top_box").style.display = "none";
-    document.getElementById("c_button").style.display = "none";
-    document.getElementById("backbutton1").style.display = "none";
-    document.getElementById("back").style.display = "block";
-    document.getElementById("thee_data").style.display = "block";
 
-}
-</script>
 <script>
    getinfo = async () => {
         var API_KEY = '{{ env('API_KEY') }}';
