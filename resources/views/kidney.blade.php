@@ -56,8 +56,13 @@ getinfo = async () => {
         document.getElementById("thee_data").innerHTML = `<p>There was an error fetching the data. Please try again later.</p>`;
     }
 };
-
-</script>
+getData = () => {
+    document.getElementById("top_box").style.display = "none";
+    document.getElementById("c_button").style.display = "none";
+    document.getElementById("backbutton1").style.display = "none";
+    document.getElementById("back").style.display = "block";
+    document.getElementById("thee_data").display = "block";
+    getinfo();
 
 @endsection
 
